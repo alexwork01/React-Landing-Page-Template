@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation";
 import { Header } from "./components/header";
@@ -11,6 +12,8 @@ import { Contact } from "./components/contact";
 import JsonData from "./data/data.json";
 import SmoothScroll from "smooth-scroll";
 import "./App.css";
+import { logToAnalytics, EVENT_TYPE } from "./services/analytics";
+import { detectDevice } from "./utils/detectDevice";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
@@ -21,6 +24,7 @@ const App = () => {
   const [landingPageData, setLandingPageData] = useState({});
   useEffect(() => {
     setLandingPageData(JsonData);
+    logToAnalytics(EVENT_TYPE.appLoaded, detectDevice());
   }, []);
 
   return (
@@ -30,9 +34,9 @@ const App = () => {
       <Features data={landingPageData.Features} />
       <About data={landingPageData.About} />
       <Services data={landingPageData.Services} />
-      <Gallery data={landingPageData.Gallery}/>
+      <Gallery data={landingPageData.Gallery} />
       <Testimonials data={landingPageData.Testimonials} />
-      <Team data={landingPageData.Team} />
+      {/* <Team data={landingPageData.Team} />*/}
       <Contact data={landingPageData.Contact} />
     </div>
   );
